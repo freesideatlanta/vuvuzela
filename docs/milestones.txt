@@ -1,0 +1,51 @@
+milestones
+
+[recommendations]
+
+before presenting the list of milestone versions (sets of features for each periodic deliverable), a few recommendations about the current design:
+
+- the separate detached process is a good pattern for this, however, the top-level launch script should run under a no-shell/no-login dedicated user rather than root
+- after an event, the [reader] process may parse the /dev/ttys0 string, but should only send card id and access result strings as parameters to [service-model]
+- [reader] continues to record other low-level information in syslog, and launches [service-model] as a separate process
+- [service-model] provides existing functionality, but provides new methods as well (more details about that later)
+- for persistent storage, sqlite is a better choice than mysql, for simplicity (no mysqld, user setup), and ease to backup (a single file)
+- there's two sqlite tables: one for associating username, card id; another for logging key successes/fails with a timestamp
+- the twitter application consumer_key and consumer_secret should be stored in a configuration file somewhere in /etc the door-logger user has read access to in the group "door-logger"
+- the default sound files should be stored read-only in the door-logger user's home directory
+- a user with a login to tammy can specify a directory $HOME/.door-logger that belongs to the group "door-logger" with group read access
+- $HOME/.door-logger can hold files: optional <filename>[.mp3|.wav] and config: all must be readable to group "door-logger"
+- config has lines that define [No]Sound, [No]Tweet, and [No]Alias; blank or empty strings fall to defaults, prefixes of No disable the action; No prefix on either Tweet or Alias disable tweeting
+- a [service] can use the code in [service-model] to execute operations; for example, [service] may be a website with forms that operate some admin actions (such as lock, unlock, pulse door, add user)
+
+each milestone version is named after a popular looney tunes character, and lists the target features/goals below.
+
+[wile] get the "found" code working again, minus [service-model] functions
+- propose to name application 'vuvuzela', or decide on apropos name
+- create vuvuzela user and group
+- run [reader] at start-up under vuvuzela user
+- successfully recieve event from /dev/ttys0 in [reader]
+- record low-level information in separate log for vuvuzela in, say, /var/log/vuvuzela/reader.log
+- finish design and plan for [service-model] with recommendations above
+- move third-party modules/libraries to /opt or apropos location per python convention
+
+[foghorn] reproduce [service-model] functions, but with defaults
+- setup sqlite instance with tables as described above instead of mysql
+- put twitter consumer key and secret in /etc/vuvuzela/config, and modify [service-model] to read them
+- modify [service-model] to record data to sqlite instance instead of mysql
+- create crontab entry to periodically backup the sqlite instance
+- drop default sound files in /etc/vuvuzela/. and add default twitter string to /etc/vuvuzela/config
+- log events to sqlite log table
+
+[marvin] allow user configuration of [service-model] functions
+- write a simple script to get a user started (creates $HOME/.vuvuzela directory with default config file)
+- put script in /usr/local/bin
+- modify [service-model] to parse a user's $HOME/.vuvuzela/config and customize functions
+
+[speedy] add more functions to [service-model]
+- create/update/delete user
+- lock/unlock/pulse door
+- implement shell scripts for each function (availble to root, sudoers)
+
+[elmer] design and implement initial version of [service] that invokes [service-model] functions
+- decide on website or web methods, technology stack (whatever leverages existing python code the best)
+- create admin users (perhaps modify sqlite members table to flag admins)
