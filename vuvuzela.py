@@ -49,15 +49,15 @@ def main():
             else:
                 a_result = "DENIED"
          
-         a_card=line[2:5]+":"+line[5:]
-         logline = "[" + str(serialno) + "] Door: " + a_door + " Card ID: " + a_card + " Result: " + a_result
-         serialno = serialno + 1
+        a_card=line[2:5]+":"+line[5:]
+        logline = "[" + str(serialno) + "] Door: " + a_door + " Card ID: " + a_card + " Result: " + a_result
+        serialno = serialno + 1
          
-         if (serialno == 100):
+        if (serialno == 100):
             serialno = 1
          
-         logit(logline)
-         run("/home/DoorLogger/AccessHandler.py", line)
+        logit(logline)
+        run("/home/DoorLogger/AccessHandler.py", line)
 
 if __name__ == '__main__':
     logit("Viking ES-1 Logging Initalized")
