@@ -32,7 +32,7 @@ def main():
 
     while(1):
         try:
-            ser = serial.Serial('/dev/ttyS1',1200,timeout = 60)
+            ser = serial.Serial('/dev/ttyS0', 1200, timeout = 60)
         except:
             logit("Unexpected error (serial)")
             logit(str(sys.exc_info()[1]))
