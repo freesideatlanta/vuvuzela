@@ -42,7 +42,7 @@ def get_granted_sound(username):
     # detect ~<username>/.vuvuzela/config
     #
     # if exists
-    #     path = "greeting" field value in config file
+    #     path = "greeting" field value in config file // use os.stat(filename)
     #     
     # return path
     return ""
@@ -96,69 +96,6 @@ def tweet_message(message):
 
         TwitRetry = TwitRetry + 1
         time.sleep(5)
-
-def granted_sound(cardID):
-    # TODO: remove this function, using ~<username>/.vuvuzela/conig instead
-    SOUNDPATH="/home/DoorSounds/"
-    s_exists = 0
-
-    # Check for MP3 file
-    soundfile = SOUNDPATH + cardID + ".mp3"
-    defaultsound = SOUNDPATH + "welcome.wav"
-
-    try:
-        s_exists = os.stat(soundfile)
-    except:
-        pass
-
-    if (not s_exists):
-        # Check for WAV file
-        soundfile = SOUNDPATH + cardID + ".wav"
-
-        try:
-            s_exists = os.stat(soundfile)
-        except:
-            pass
-
-    if (s_exists):
-        # Play the first 12 seconds.
-        run("/usr/bin/play", "-q", soundfile, "trim", "0", "12")     
-    else:
-        run("/usr/bin/play", "-q", defaultsound)  # Play the generic welcome sound
-
-def dbconnect():
-    # TODO: remove this method; no longer going to use mysql login/password, only sqlite
-    dbhost="localhost"
-    dbuser="logger"
-    dbpw="SkyMotel"
-    dbname="freesidemembers"
-
-    try:
-        conn = MySQLdb.connect(
-            host = dbhost, user = dbuser,
-            passwd = dbpw, db = dbname)
-    except MySQLdb.Error, e:
-        print logdate() + " Error %d: %s" % (e.args[0], e.args[1])
-        sys.exit(1)
-
-    return conn
-
-def tweet_alias(cardID):
-    # TODO: remove this method
-    # TODO: we can obtain the desired user alias from the previous sqlite query, passed in here
-    conn = dbconnect()
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT alias FROM members WHERE cardID = %s
-        """, (cardID))
-
-    try:
-        alias = cursor.fetchone()[0]
-    except:  
-        # User not in db!
-        alias = "*UNKNOWN*"
-
-    cursor.close()
 
 def has_access(flag):
     # TODO: test
