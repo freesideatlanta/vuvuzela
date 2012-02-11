@@ -18,6 +18,7 @@ import MySQLdb
 from twitter import Twitter, TwitterError
 from twitter import OAuth, read_token_file
 import ConfigParser
+from ServiceLogger import debug, info, warning, error
 
 def usage():
     print "Usage: "
@@ -55,8 +56,9 @@ def get_denied_sound():
     return ""
 
 def play_sound(path):
-    # TODO: test
-    run("/usr/bin/play", "-q", path, "trim", "0", "12")     
+    # TODO: re-enable and test
+    info('playing sound')
+    # run("/usr/bin/play", "-q", path, "trim", "0", "12")     
     return
 
 def get_message(username):
@@ -86,16 +88,19 @@ def tweet_message(message):
     tapi = Twitter( auth=OAuth( oauth_token, oauth_token_secret, CONSUMER_KEY, CONSUMER_SECRET), secure=1, api_version='1', domain='api.twitter.com' )
 
     # Sometimes Twitter needs more than one attempt.
-    TwitRetry = 0   
-    while (TwitRetry < 4):
+    retry = 0   
+    while (retry < 4):
         try:
             tapi.statuses.update(status=message)
-            TwitRetry = 4
+            retry = 5
         except:
-	        print 'Error updating twitter. Retrying...'
+            warning('Problem updating twitter, retry attempt = ')
 
-        TwitRetry = TwitRetry + 1
+        retry = retry + 1
         time.sleep(5)
+
+    if (retry == 4):
+        error('Timed out updating twitter')
 
 def has_access(flag):
     # TODO: test
@@ -135,22 +140,13 @@ def main():
     flag = line[1]
     cardID = line[2:]
 
-    if ( has_access(flag) )
+    if ( has_access(flag) ):
+        info('<username> has access')
         username = get_username(cardID)
         execute_granted_actions(username)
     else:
+        info('<username> is denied access')
         execute_denied_actions() 
-
-    # TODO: remove this section
-    if ( (flag == "V") | (cardID == "F") ):
-        # Access Granted
-        
-        # Play sound if it exists
-        granted_sound(A_cardID)  
-        tweet_alias(A_cardID)
-    else:
-        # Access Denied
-        granted_sound("buzzer")
 
     exit(0)
 
