@@ -39,24 +39,28 @@ def run(program, *args):
         os.execvp(program, (program,) +  args)
 #    return os.wait()[0]
 
-def get_granted_sound(username):
-    # TODO: implement
-    #
-    # path = "vuvuzela:default_granted_sound" from /var/run/vuvuzela/config.ini
-    # detect ~<username>/.vuvuzela/config
-    #
-    # if exists
-    #     path = "greeting" field value in config file # use os.stat(filename) to detect file presence
-    #     
-    # return path
-    return ""
+def get_granted_sound(parser):
+    # TODO: test
+    # make sure this is /var/run/vuvuzela/config.ini
+    parser.read('config.ini')
+    path = parser.get('sound', 'granted')
+
+    configpath = os.path.expanduser('~/.vuvuzela/config.ini')
+    if (os.access(configpath, os.R_OK)):
+        parser.read(configpath)
+        if (parser.has_option('sound', 'greeting')):
+            path = parser.get('sound', 'greeting')
+
+    info('path = %s', path)
+
+    return path
 
 def get_denied_sound():
-    # TODO: implement
-    #
-    # path = "vuvuzela:default_denied_sound" from /var/run/vuvuzela/config.ini
-    # return path
-    return ""
+    # TODO: test
+    parser.read('config.ini')
+    path = parser.get('sound', 'granted')
+
+    return path 
 
 def play_sound(path):
     # TODO: re-enable and test in live environment
@@ -66,20 +70,18 @@ def play_sound(path):
 
 def get_message(username):
     # TODO: implement
-    #
-    # message = default message // "<username> has entered the building"
-    # detect ~<username>/.vuvuzela/config
-    #
-    # if exists
-    #     alias = "alias" field value in config file
-    #     message = "message" field value in config file
-    #
-    #     if alias exists
-    #         // modify the message, which presumably contains one %s
-    #         message = "message", alias
-    #
-    # return message
-    return ""
+    parser.read('config.ini')
+    message = parser.get('twitter', 'message')
+
+    configpath = os.path.expanduser('~/.vuvuzela/config.ini')
+    if (os.access(configpath, os.R_OK)):
+        parser.read(configpath)
+        if (parser.has_option('twitter', 'message')):
+            message = parser.get('twitter', 'message')
+
+    info('message = %s', message)
+
+    return message 
 
 def tweet_message(message):
     # TODO: move the key and secret to a configuration file /var/run/vuvuzela/config.ini
@@ -134,8 +136,9 @@ def get_username(cardID, connection):
 
 def execute_granted_actions(username):
     # TODO: test 
-    soundpath = get_granted_sound(username)
-    message = get_message(username)
+    parser = ConfigParser.ConfigParser()
+    soundpath = get_granted_sound(parser)
+    message = get_message(username, parser)
 
     play_sound(soundpath)
     tweet_message(message)
