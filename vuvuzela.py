@@ -1,14 +1,18 @@
 #!/usr/bin/env python
 
-import serial
 import datetime
-import time
-import syslog
-import re
-import sys
 import os
-import string
+import re
+import serial
 import signal
+import string
+import sys
+import syslog
+import time
+
+import sqlite3
+
+from ServiceLogger import debug, info, warning, error
 
 def run(program, *args):
     pid = os.fork()
@@ -22,7 +26,7 @@ def logit(logline):
         syslog.syslog(logline)
         syslog.closelog()
     except:
-        print "Unexpected error (syslog):", sys.exc_info()[0]
+        error("Unexpected error (syslog): %s", sys.exc_info()[0])
         raise
 
 def main():
@@ -57,7 +61,8 @@ def main():
             serialno = 1
          
         logit(logline)
-        run("/home/DoorLogger/AccessHandler.py", line)
+        # TODO: determine if the access handler (or other python files) need to reside in /var/run/vuvuzela
+        run("AccessHandler.py", line)
 
 if __name__ == '__main__':
     logit("Viking ES-1 Logging Initalized")
