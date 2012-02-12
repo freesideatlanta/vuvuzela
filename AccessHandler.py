@@ -8,11 +8,12 @@
 #            CCC = Facility Code
 #            DDDDD = Card ID           
 
-import string
-import sys
+import datetime
 import os
 import re
 import signal
+import string
+import sys
 import time
 
 import ConfigParser
@@ -45,7 +46,7 @@ def get_granted_sound(username):
     # detect ~<username>/.vuvuzela/config
     #
     # if exists
-    #     path = "greeting" field value in config file // use os.stat(filename)
+    #     path = "greeting" field value in config file # use os.stat(filename) to detect file presence
     #     
     # return path
     return ""
@@ -58,7 +59,7 @@ def get_denied_sound():
     return ""
 
 def play_sound(path):
-    # TODO: re-enable and test
+    # TODO: re-enable and test in live environment
     info('playing sound')
     # run("/usr/bin/play", "-q", path, "trim", "0", "12")     
     return
@@ -93,7 +94,8 @@ def tweet_message(message):
     retry = 0   
     while (retry < 4):
         try:
-            tapi.statuses.update(status=message)
+            # TODO: re-enable in live environment
+            #tapi.statuses.update(status=message)
             retry = 5
         except:
             warning('Problem updating twitter, retry attempt = ')
@@ -104,15 +106,25 @@ def tweet_message(message):
     if (retry == 4):
         error('Timed out updating twitter')
 
+def get_connection():
+    # vuvuzela.db should reside in /var/run/vuvuzela
+    return sqlite3.connect('vuvuzela.db')
+
+def log_entry(cardID, facilityID, flag, connection):
+    # TODO: test 
+    cursor = connection.cursor()
+    # NOTE: this is order dependent on how the columns go in vuvuzela.entry_log
+    params = (cardID, facilityID, flag, datetime.datetime.now())
+    cursor.execute("insert into entry_log values(rowid, ?, ?, ?, ?)", params)
+
+    connection.commit()
+
 def has_access(flag):
     # TODO: test
     return (flag == "V") | (flag == "F")
 
-def get_username(cardID):
+def get_username(cardID, connection):
     # TODO: test
-    # vuvuzela.db should reside in /var/run/vuvuzela
-    connection = sqlite3.connect('vuvuzela.db')
-
     cursor = connection.cursor()
     params = { 'cardID' : cardID }
     cursor.execute("select username from members where cardID = :cardID", params)
@@ -144,18 +156,28 @@ def main():
 
     line = re.sub('[^A-Z0-9]+','', sys.argv[1])[:10]
     flag = line[1]
-    cardID = line[2:]
+    # facilityID should be '040'
+    facilityID = line[2:4]
+    cardID = line[5:]
+
+    debug("flag = %s", %s)
+    debug("facilityID = %s", %s)
+    debug("cardID = %s", %s)
+
+    log_entry(cardID, facilityID, flag, connection)
 
     if ( has_access(flag) ):
         info('member has access')
         
-        username = get_username(cardID)
+        username = get_username(cardID, connection)
         debug('username = %s', username)
 
         execute_granted_actions(username)
     else:
         info('member is denied access')
         execute_denied_actions() 
+
+    connection.close()
 
     exit(0)
 
