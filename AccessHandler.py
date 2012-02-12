@@ -14,10 +14,12 @@ import os
 import re
 import signal
 import time
-import MySQLdb
+
+import ConfigParser
+import sqlite3
+
 from twitter import Twitter, TwitterError
 from twitter import OAuth, read_token_file
-import ConfigParser
 from ServiceLogger import debug, info, warning, error
 
 def usage():
@@ -107,12 +109,16 @@ def has_access(flag):
     return (flag == "V") | (flag == "F")
 
 def get_username(cardID):
-    # TODO: implement
-    #
-    # make a connection to the /var/run/vuvuzela/vuvuzela.db sqlite file
-    # select from the members table the username for the cardID
-    # return username
-    return ""
+    # TODO: test
+    # vuvuzela.db should reside in /var/run/vuvuzela
+    connection = sqlite3.connect('vuvuzela.db')
+
+    cursor = connection.cursor()
+    params = { 'cardID' : cardID }
+    cursor.execute("select username from members where cardID = :cardID", params)
+    username = cursor.fetchone()
+
+    return username
 
 def execute_granted_actions(username):
     # TODO: test 
@@ -141,11 +147,14 @@ def main():
     cardID = line[2:]
 
     if ( has_access(flag) ):
-        info('<username> has access')
+        info('member has access')
+        
         username = get_username(cardID)
+        debug('username = %s', username)
+
         execute_granted_actions(username)
     else:
-        info('<username> is denied access')
+        info('member is denied access')
         execute_denied_actions() 
 
     exit(0)
