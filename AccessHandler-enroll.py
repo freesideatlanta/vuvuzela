@@ -65,6 +65,7 @@ def run(program, *args):
 ######## granted_sound(cardID)
 #
 def granted_sound(cardID):
+    # NOTE: it's reading these characters and deciding to look up iButton user (?)
    if (cardID[:3] == "001"):
       conn = dbconnect()
       cursor = conn.cursor()
@@ -136,7 +137,13 @@ def dbconnect():
 
 ######## iB_enroll_arm(cardID)
 #
+# 1. if you use a cardID that doesn't have a freeside facilityID of 040, then find the user's corresponding iButtonID
+# 2. if you haven't assigned an iButtonID to a user, then create a temporary file iBmarker with the user's "cardID" CCCDDDDD
+# NOTE: this looks to be the first step in a process to register an iButton with a user
 def iB_enroll_arm(cardID):
+    # NOTE: this is not a cardID, this is CCCDDDDD
+    # NOTE: this is what I think the facilityID at freeside is
+    # NOTE: this examines the first three characters, so the facility code
    if (cardID[:3] != "040"):
       return
    conn = dbconnect()
@@ -149,6 +156,7 @@ def iB_enroll_arm(cardID):
 #   except:  # Something went wrong!
 #      LOG HERE
    if (iButton == None):   # Okay, there isn't one assigned yet
+       # NOTE: iButton markers stored in this file - looks to be ibutton
       mrkfile = open("/var/tmp/iBmarker","w")
       mrkfile.write(str(time.mktime(datetime.datetime.now().timetuple()))+"|"+cardID)
       mrkfile.flush()
@@ -160,6 +168,15 @@ def iB_enroll_arm(cardID):
 
 ######## iB_enroll(cardID)
 #
+# 1. look for iBmarker file
+# 2. if iBmarker exists, this means that somebody used a cardID with a non 040 facilityID
+# 2a. that probably means there's a special card to register iButtons, but it could be any readable card without a facilityID of 040
+# 3. if either there's no iBmarker, or if you don't tap an iButton in 20 seconds, then it breaks out without registering
+# 4. clear the iBmarker file
+# 5. find the member ID (the 'primary' key of the members table) that corresponds to the user's cardID
+# 6. NOTE: the es1_slot assigned to the iButton is 100 more than the member ID - could be problematic
+# 7. the comment suggests that the old badge is not valid...maybe replaces a user's login with the ibutton?
+# NOTE: there's little to no mention of the iButton in the original access handler
 def iB_enroll(cardID):
    try:
       mrkfile = open("/var/tmp/iBmarker","r")
@@ -247,14 +264,17 @@ def main():
 
    line=re.sub('[^A-Z0-9]+','', sys.argv[1])[:10]
    A_result = line[1]
+   # NOTE: take everything but the first two characters, so pass CCCDDDDD
    A_cardID = line[2:]
 
    if ( (A_result == "V") | (A_result == "F") ):   # Access Granted
       granted_sound(A_cardID)  # Play sound if it exists
       tweet_alias(A_cardID)
+      # NOTE: if the badge has access then start the two-step process of enrolling an iButton
       iB_enroll_arm(A_cardID)
    else:  # Access Denied
       if (A_cardID[:3] == "001"):
+          # NOTE: assuming the iButton fails, attempt to enroll it
          iB_enroll(A_cardID)
       else:
          granted_sound("buzzer")

@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# this is the vuvuzela "service" that listens for badge read events, and calls AccessHandler.py
+# NOTE: this script does some amusing double-fork action to detatch its process from the parent
+# NOTE: the upstart configuration notes this and asserts the vuvuzela service double-folks
 
 import datetime
 import os
