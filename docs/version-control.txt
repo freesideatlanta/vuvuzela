@@ -1,5 +1,0 @@
-version control notes
-
-- the initial commit contains the code and third-party software directories unmodified, not .gitignore'd to preserve the found state of this application
-- subsequent commits will slowly pare away some of the code redundancies, such as the poor man's versioned files, emacs backups
-- third-party software libraries/modules shall migrate to /opt/... or /usr/local/..., whatever makes more sense and is in line with python development conventions
