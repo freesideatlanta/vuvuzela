@@ -8,13 +8,13 @@ LDAP system and entries (?)
 - custom schema for freeside member includes engraving, locationid, tokenid
 
 MySQL database system
-- user (uid, pid)
 - person (pid, full name, email, number)
+- user (uid, login, pid)
 - group (gid, name, description) *
 - token (tid, active, engraving, locationid, tokenid) *
+- zone (zid, name, description) 
 - node (nid, zid, hostname)
 - relay (rid, zid, number, description)
-- zone (zid, name, description) 
 - user_group (ugid, uid, gid) *
 - user_token (utid, uid, tid)
 - group_node (gnid, gid, nid) *
