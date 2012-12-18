@@ -26,18 +26,18 @@ MySQL database system
 
 SQLite access control lists
 ---------------------------
-- filename: <server>:/srv/<hostname>.db 
-- access (tokenid, number)
+    filename: <server>:/srv/<hostname>.db
+    access (tokenid, number)
 
 SQLite log
 ----------
-- filename: <hostname>:/var/log/vuvuzela/<hostname>.db
-- log (when, tokenid, granted)
+    filename: <hostname>:/var/log/vuvuzela/<hostname>.db
+    log (when, tokenid, granted)
 
 vuvuzela (central server)
 -------------------------
 - query MySQL and/or LDAP to construct SQLite access control list
-- read in the <hostname>-log.db log tables and import into central log
+- read in the `<hostname>-log.db` log tables and import into central log
 
 vuvuzela (nodes)
 ----------------
