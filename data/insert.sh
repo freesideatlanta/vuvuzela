@@ -1,7 +1,7 @@
 #!/bin/sh
 
-USER=root
-PASS=fsroot
+USER=vuvuzela
+PASS=alezuvuv
 DB=freeside
 TARGET=insert.sql
 
@@ -10,5 +10,8 @@ cat insert_person.sql >> $TARGET
 cat insert_user.sql >> $TARGET
 cat insert_group.sql >> $TARGET
 cat insert_token.sql >> $TARGET
+cat insert_zone.sql >> $TARGET
 
-mysql -u $USER -p $PASS $DB < $TARGET
+mysql -u $USER --password=$PASS $DB < $TARGET
+
+rm $TARGET

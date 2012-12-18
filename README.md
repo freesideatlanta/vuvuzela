@@ -38,6 +38,7 @@ vuvuzela (central server)
 -------------------------
 - query MySQL and/or LDAP to construct SQLite access control list
 - read in the `<hostname>-log.db` log tables and import into central log
+- [installation of python mysql libraries](http://codeinthehole.com/writing/how-to-set-up-mysql-for-python-on-ubuntu/)
 
 vuvuzela (nodes)
 ----------------
@@ -48,3 +49,6 @@ vuvuzela (nodes)
 - record granted = true in log
 - if not, record granted = false in log
 - cron job periodically pulls from central server
+
+
+
