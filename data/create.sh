@@ -1,23 +1,28 @@
 #!/bin/sh
 
-USER=root
-PASS=fsroot
+USER=vuvuzela
+PASS=alezuvuv
 DB=freeside
+TARGET=create.sql
 
 echo "CREATE DATABASE IF NOT EXISTS $DB" > create_$DB.sql
-mysql -u $USER -p $PASS < create_$DB.sql
+mysql -u $USER --password=$PASS < create_$DB.sql
 
-mysql -u $USER -p $PASS $DB < create_person.sql
-mysql -u $USER -p $PASS $DB < create_user.sql
-mysql -u $USER -p $PASS $DB < create_group.sql
-mysql -u $USER -p $PASS $DB < create_token.sql
-mysql -u $USER -p $PASS $DB < create_zone.sql
-mysql -u $USER -p $PASS $DB < create_node.sql
-mysql -u $USER -p $PASS $DB < create_relay.sql
-mysql -u $USER -p $PASS $DB < create_log.sql
+:> $TARGET
+cat create_person.sql >> $TARGET
+cat create_user.sql >> $TARGET
+cat create_class.sql >> $TARGET
+cat create_token.sql >> $TARGET
+cat create_zone.sql >> $TARGET
+cat create_node.sql >> $TARGET
+cat create_relay.sql >> $TARGET
+cat create_log.sql >> $TARGET
 
-mysql -u $USER -p $PASS $DB < create_user_group.sql
-mysql -u $USER -p $PASS $DB < create_user_token.sql
-mysql -u $USER -p $PASS $DB < create_group_node.sql
-mysql -u $USER -p $PASS $DB < create_node_relay.sql
+cat create_user_class.sql >> $TARGET
+cat create_user_token.sql >> $TARGET
+cat create_class_node.sql >> $TARGET
+cat create_node_relay.sql >> $TARGET
 
+mysql -u $USER --password=$PASS $DB < create.sql
+
+rm create.sql

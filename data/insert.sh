@@ -3,9 +3,12 @@
 USER=root
 PASS=fsroot
 DB=freeside
+TARGET=insert.sql
 
-mysql -u $USER -p $PASS $DB < insert_person.sql
-mysql -u $USER -p $PASS $DB < insert_user.sql
-mysql -u $USER -p $PASS $DB < insert_group.sql
-mysql -u $USER -p $PASS $DB < insert_token.sql
-mysql -u $USER -p $PASS $DB < insert_zone.sql
+:> $TARGET
+cat insert_person.sql >> $TARGET
+cat insert_user.sql >> $TARGET
+cat insert_group.sql >> $TARGET
+cat insert_token.sql >> $TARGET
+
+mysql -u $USER -p $PASS $DB < $TARGET
