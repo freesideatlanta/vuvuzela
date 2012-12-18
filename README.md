@@ -9,20 +9,20 @@ LDAP system and entries (TBD)
 
 MySQL database system
 ---------------------
-- person (pid, full name, email, number)
-- user (uid, login, pid)
-- class (cid, name, description) *
-- token (tid, active, engraving, locationid, tokenid) *
-- zone (zid, name, description) 
-- node (nid, zid, hostname)
-- relay (rid, zid, number, description)
-- user_class (ucid, uid, cid) *
-- user_token (utid, uid, tid)
-- class_node (cnid, cid, nid) *
-- node_relay (nrid, nid, rid)
-- log (lid, nid, when, tokenid, granted)
+    person (pid, full name, email, number)
+    user (uid, login, pid)
+    class (cid, name, description) *
+    token (tid, active, engraving, locationid, tokenid) *
+    zone (zid, name, description) 
+    node (nid, zid, hostname)
+    relay (rid, zid, number, description)
+    user_class (ucid, uid, cid) *
+    user_token (utid, uid, tid)
+    class_node (cnid, cid, nid) *
+    node_relay (nrid, nid, rid)
+    log (lid, nid, when, tokenid, granted)
 
-* tables obsoleted when LDAP system manages groups
+    * tables obsoleted when LDAP system manages groups
 
 SQLite access control lists
 ---------------------------
