@@ -1,0 +1,19 @@
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='quadmasta@hotmail.com'), (SELECT tid FROM token WHERE tokenid='61921'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='vigor.rigor.igor@gmail.com'), (SELECT tid FROM token WHERE tokenid='01589'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='emptyset@gmail.com'), (SELECT tid FROM token WHERE tokenid='63781'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='myonen.mc.ca@gmail.com'), (SELECT tid FROM token WHERE tokenid='55267'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='scott.mcgraw@gatech.edu'), (SELECT tid FROM token WHERE tokenid='60301'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='paul@firnschild.com'), (SELECT tid FROM token WHERE tokenid='64190'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='waynesalhany@cythink.com'), (SELECT tid FROM token WHERE tokenid='03328'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='pacsman2005@gmail.com'), (SELECT tid FROM token WHERE tokenid='58745'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='npcomp@npcomp.net'), (SELECT tid FROM token WHERE tokenid='04555'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='seanfkennedy@gmail.com'), (SELECT tid FROM token WHERE tokenid='01020'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='randy.farmer@gmail.com'), (SELECT tid FROM token WHERE tokenid='01373'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ghostfreeman@gmail.com'), (SELECT tid FROM token WHERE tokenid='02252'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ben_n_bradley@etcmail.com'), (SELECT tid FROM token WHERE tokenid='60866'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='dmm@yak.net'), (SELECT tid FROM token WHERE tokenid='03841'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ghost@uxch.com'), (SELECT tid FROM token WHERE tokenid='59748'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ssutton4455@gmail.com'), (SELECT tid FROM token WHERE tokenid='62692'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='nullset@gmail.com'), (SELECT tid FROM token WHERE tokenid='62447'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='fatpandasays@gmail.com'), (SELECT tid FROM token WHERE tokenid='64074'));
+
