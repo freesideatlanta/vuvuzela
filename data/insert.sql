@@ -42,7 +42,7 @@ INSERT INTO user (login, pid) VALUES ('donald.mead', (SELECT pid FROM person WHE
 INSERT INTO user (login, pid) VALUES ('e.joseph.wertz', (SELECT pid FROM person WHERE email='e.joseph.wertz@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('npcomp', (SELECT pid FROM person WHERE email='npcomp@npcomp.net'));
 INSERT INTO user (login, pid) VALUES ('h.preston.ladds', (SELECT pid FROM person WHERE email='householdwords@gmail.com'));
-INSERT INTO user (login, pid) VALUES ('igor.kondratyuk', (SELECT pid FROM person WHERE email='vigor.rigor.igor@gmail.com'));
+INSERT INTO user (login, pid) VALUES ('ferris', (SELECT pid FROM person WHERE email='vigor.rigor.igor@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('joe', (SELECT pid FROM person WHERE email='joe@koberg.us'));
 INSERT INTO user (login, pid) VALUES ('josh.ostermorris', (SELECT pid FROM person WHERE email='josh@craftycoder.com'));
 INSERT INTO user (login, pid) VALUES ('acmepost', (SELECT pid FROM person WHERE email='acmepost@yahoo.com'));
