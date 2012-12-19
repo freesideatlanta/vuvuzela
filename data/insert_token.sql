@@ -16,4 +16,4 @@ INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '000110
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001111268', '016', '62692');
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (false, '0001111023', '016', '62447');
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001112650', '016', '64074');
-
+INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001109365', '016', '60789');

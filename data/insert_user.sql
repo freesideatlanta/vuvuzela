@@ -1,6 +1,6 @@
 INSERT INTO user (login, pid) VALUES ('emptyset', (SELECT pid FROM person WHERE email='emptyset@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('ben.bradley', (SELECT pid FROM person WHERE email='ben_n_bradley@etcmail.com'));
-INSERT INTO user (login, pid) VALUES ('brent.cerrato', (SELECT pid FROM person WHERE email='methuse@gmail.com'));
+INSERT INTO user (login, pid) VALUES ('brent_c', (SELECT pid FROM person WHERE email='methuse@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('cribbsb', (SELECT pid FROM person WHERE email='quadmasta@hotmail.com'));
 INSERT INTO user (login, pid) VALUES ('nullset', (SELECT pid FROM person WHERE email='nullset@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('thrillgore', (SELECT pid FROM person WHERE email='ghostfreeman@gmail.com'));

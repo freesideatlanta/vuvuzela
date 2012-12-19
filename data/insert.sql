@@ -83,7 +83,7 @@ INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '000110
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001111268', '016', '62692');
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (false, '0001111023', '016', '62447');
 INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001112650', '016', '64074');
-
+INSERT INTO token (active, engraving, locationid, tokenid) VALUES (true, '0001109365', '016', '60789');
 INSERT INTO zone (name, description) VALUES ('00', 'Welcome');
 INSERT INTO zone (name, description) VALUES ('01', '3D Printing');
 INSERT INTO zone (name, description) VALUES ('02', 'TBD');
@@ -112,7 +112,7 @@ INSERT INTO node (zid, hostname) VALUES ((SELECT zid FROM zone WHERE name='11'),
 INSERT INTO relay (zid, number, description) VALUES ((SELECT zid FROM zone WHERE name='00'), 1, 'Front Door');
 INSERT INTO relay (zid, number, description) VALUES ((SELECT zid FROM zone WHERE name='06'), 1, 'Server Room Door');
 INSERT INTO relay (zid, number, description) VALUES ((SELECT zid FROM zone WHERE name='11'), 1, 'Member Storage Door');
-INSERT INTO relay (zid, number, description) VALUES ((SELECT zid FROM zone WHERE name='11'), 2, 'Tool Room Door');
+INSERT INTO relay (zid, number, description) VALUES ((SELECT zid FROM zone WHERE name='14'), 2, 'Tool Room Door');
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='quadmasta@hotmail.com'), (SELECT tid FROM token WHERE tokenid='61921'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='vigor.rigor.igor@gmail.com'), (SELECT tid FROM token WHERE tokenid='01589'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='emptyset@gmail.com'), (SELECT tid FROM token WHERE tokenid='63781'));
@@ -131,7 +131,7 @@ INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON u
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ssutton4455@gmail.com'), (SELECT tid FROM token WHERE tokenid='62692'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='nullset@gmail.com'), (SELECT tid FROM token WHERE tokenid='62447'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='fatpandasays@gmail.com'), (SELECT tid FROM token WHERE tokenid='64074'));
-
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='methuse@gmail.com'), (SELECT tid FROM token WHERE tokenid='60789'));
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ben_n_bradley@etcmail.com'), (SELECT cid FROM class WHERE name='members'));
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='methuse@gmail.com'), (SELECT cid FROM class WHERE name='members'));
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ghostfreeman@gmail.com'), (SELECT cid FROM class WHERE name='members'));

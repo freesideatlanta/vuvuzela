@@ -16,4 +16,4 @@ INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON u
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ssutton4455@gmail.com'), (SELECT tid FROM token WHERE tokenid='62692'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='nullset@gmail.com'), (SELECT tid FROM token WHERE tokenid='62447'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='fatpandasays@gmail.com'), (SELECT tid FROM token WHERE tokenid='64074'));
-
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='methuse@gmail.com'), (SELECT tid FROM token WHERE tokenid='60789'));
