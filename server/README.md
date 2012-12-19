@@ -10,10 +10,10 @@ generator script:
 - cron runs daily at 1a
 - for each node in query(mysql.node)
   - query to produce acl for each relay number
-  - generate /srv/<hostname>.db (overwrite)
+  - generate `/srv/<hostname>.db` (overwrite)
 
 loggregator script:
 - runs as vuvuzela user
 - cron runs daily at 6a
-- for each <hostname>-log.db in /var/log/vuvuzela/.
+- for each `<hostname>-log.db` in `/var/log/vuvuzela/.`
   - query(sqlite.log) and append rows to mysql.log

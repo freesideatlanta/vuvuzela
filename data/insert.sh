@@ -21,4 +21,4 @@ cat insert_node_relay.sql >> $TARGET
 
 mysql -u $USER --password=$PASS $DB < $TARGET
 
-# rm $TARGET
+rm $TARGET
