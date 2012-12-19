@@ -16,8 +16,8 @@ cat insert_relay.sql >> $TARGET
 
 cat insert_user_token.sql >> $TARGET
 cat insert_user_class.sql >> $TARGET
-cat insert_class_node.sql >> $TARGET
 cat insert_node_relay.sql >> $TARGET
+cat insert_class_node_relay.sql >> $TARGET
 
 mysql -u $USER --password=$PASS $DB < $TARGET
 

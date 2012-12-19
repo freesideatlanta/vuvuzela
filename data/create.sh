@@ -20,7 +20,7 @@ cat create_log.sql >> $TARGET
 
 cat create_user_class.sql >> $TARGET
 cat create_user_token.sql >> $TARGET
-cat create_class_node.sql >> $TARGET
+cat create_class_node_relay.sql >> $TARGET
 cat create_node_relay.sql >> $TARGET
 
 mysql -u $USER --password=$PASS $DB < create.sql
