@@ -1,6 +1,7 @@
 import ConfigParser
 import MySQLdb 
 import os
+import sqlite3
 import sys
 
 class Generator:
@@ -43,31 +44,60 @@ class Generator:
                 nodeid = group["nodeid"]
                 relayid = group["relayid"]
 
-                self.create_acl(hostname, relayid)
+                filename = self.create_acl(hostname, relayid)
 
                 query = self.query_acl(groupid)
                 aclcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
                 aclcursor.execute(query)
 
-                for entry in aclcursor:
-                    locationid = entry["locationid"]
-                    tokenid = entry["tokenid"]
-
-                    self.insert_aclentry(locationid, tokenid)
-
+                self.insert_aclentry(filename, aclcursor)
 
         except MySQLdb.Error, e:
             print(e)
             sys.exit(1)
 
     def create_acl(self, hostname, relayid):
-        # TODO: generate sqlite file hostname-relayid.db with access, log tables
+        # generate sqlite file hostname-relayid.db with access, log tables
         print("generating ACL: " + hostname + "-" + str(relayid) + ".db")
+        filename = hostname + "-" + str(relayid) + ".db"
 
-    def insert_aclentry(self, locationid, tokenid):
-        # TODO: insert the entry into the access table
-        print(locationid + tokenid)
-        
+        try:
+            acl = sqlite3.connect(filename)
+            cursor = acl.cursor()
+            query = self.create_access()
+            cursor.execute(query)
+            #query = self.create_log()
+            #cursor.execute(query)
+        except sqlite3.Error, e:
+            print(e)
+            sys.exit(1)
+        finally:
+            if acl:
+                acl.close()
+
+        return filename
+
+    def insert_aclentry(self, filename, aclcursor):
+        # insert the entry into the access table
+
+        try:
+            acl = sqlite3.connect(filename)
+            cursor = acl.cursor()
+            
+            for entry in aclcursor:
+                locationid = entry["locationid"]
+                tokenid = entry["tokenid"]
+
+                query = self.insert_access(locationid, tokenid)
+                cursor.execute(query)
+
+        except sqlite3.Error, e:
+            print(e)
+            sys.exit(1)
+        finally:
+            if acl:
+                acl.close()
+       
     def query_targets(self):
         return "SELECT \
                 c.cid AS groupid, name AS groupname, description, n.hostname, cnr.nid AS nodeid, cnr.rid AS relayid \
@@ -84,6 +114,12 @@ class Generator:
                 JOIN user_token ut ON u.uid = ut.uid \
                 JOIN token t ON t.tid = ut.tid \
                 WHERE c.cid = " + str(groupid)
+
+    def create_access(self):
+        return "CREATE TABLE access(tokenid TEXT)"
+
+    def insert_access(self, locationid, tokenid):
+        return "INSERT INTO access VALUES (" + locationid + tokenid + ")"
 
 
 def main():
