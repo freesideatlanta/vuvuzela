@@ -118,10 +118,11 @@ class Generator:
        
     def query_targets(self):
         return "SELECT \
-                c.cid AS groupid, name AS groupname, description, n.hostname, cnr.nid AS nodeid, cnr.rid AS relayid \
+                c.cid AS groupid, name AS groupname, description, n.hostname, cnr.nid AS nodeid, r.number AS relayid \
                 FROM class c \
                 JOIN class_node_relay cnr ON c.cid = cnr.cid \
-                JOIN node n on n.nid = cnr.nid"
+                JOIN node n on n.nid = cnr.nid \
+                JOIN relay r on r.rid = cnr.rid"
     
     def query_acl(self, groupid):
         return "SELECT \
