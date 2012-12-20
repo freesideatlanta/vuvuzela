@@ -9,7 +9,6 @@ class Generator:
         self.db = None
 
         parser = ConfigParser.ConfigParser()
-        # override the database credentials with the vuvuzela user configuration
         local = os.path.expanduser('~/.vuvuzela/configuration.ini')
         parser.read(['configuration.ini', local])
 
@@ -18,8 +17,10 @@ class Generator:
             self.username = parser.get('datastore', 'username')
             self.password = parser.get('datastore', 'password')
             self.database = parser.get('datastore', 'database')
-            self.aclpath = parser.get('datastore', 'aclpath')
-            self.logpath = parser.get('datastore', 'logpath')
+
+        if (parser.has_section('targets')):
+            self.aclpath = parser.get('targets', 'aclpath')
+            self.logpath = parser.get('targets', 'logpath')
 
     def connect(self):
         try:
@@ -63,7 +64,7 @@ class Generator:
     def create_acl(self, hostname, relayid):
         # generate sqlite file hostname-relayid.db with access, log tables
         print("generating ACL: " + hostname + "-" + str(relayid) + ".db")
-        filename = aclpath + hostname + "-" + str(relayid) + ".db"
+        filename = self.aclpath + hostname + "-" + str(relayid) + ".db"
 
         try:
             acl = sqlite3.connect(filename)
@@ -81,7 +82,7 @@ class Generator:
 
     def insert_aclentries(self, filename, aclcursor):
         # insert the entries into the access table
-
+        acl = None
         try:
             acl = sqlite3.connect(filename)
             cursor = acl.cursor()
@@ -101,6 +102,7 @@ class Generator:
                 acl.close()
 
     def create_logfile(self, hostname, relayid):
+        logfile = None
         try:
             filename = self.logpath + hostname + "-" + relayid
             logfile = sqlite3.connect(filename)
@@ -138,7 +140,7 @@ class Generator:
         return "INSERT INTO access VALUES (" + locationid + tokenid + ")"
 
     def create_log(self):
-        retrun "CREATE TABLE log (when TIMESTAMP DEFAULT CURRENT_TIMESTAMP, tokenid TEXT, granted INT)"
+        return "CREATE TABLE log (when TIMESTAMP DEFAULT CURRENT_TIMESTAMP, tokenid TEXT, granted INT)"
 
 
 def main():
