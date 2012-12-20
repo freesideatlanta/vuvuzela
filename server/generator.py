@@ -18,6 +18,8 @@ class Generator:
             self.username = parser.get('datastore', 'username')
             self.password = parser.get('datastore', 'password')
             self.database = parser.get('datastore', 'database')
+            self.aclpath = parser.get('datastore', 'aclpath')
+            self.logpath = parser.get('datastore', 'logpath')
 
     def connect(self):
         try:
@@ -50,7 +52,9 @@ class Generator:
                 aclcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
                 aclcursor.execute(query)
 
-                self.insert_aclentry(filename, aclcursor)
+                self.insert_aclentries(filename, aclcursor)
+
+                self.create_logfile(hostname, relayid)
 
         except MySQLdb.Error, e:
             print(e)
@@ -59,15 +63,13 @@ class Generator:
     def create_acl(self, hostname, relayid):
         # generate sqlite file hostname-relayid.db with access, log tables
         print("generating ACL: " + hostname + "-" + str(relayid) + ".db")
-        filename = hostname + "-" + str(relayid) + ".db"
+        filename = aclpath + hostname + "-" + str(relayid) + ".db"
 
         try:
             acl = sqlite3.connect(filename)
             cursor = acl.cursor()
             query = self.create_access()
             cursor.execute(query)
-            #query = self.create_log()
-            #cursor.execute(query)
         except sqlite3.Error, e:
             print(e)
             sys.exit(1)
@@ -77,8 +79,8 @@ class Generator:
 
         return filename
 
-    def insert_aclentry(self, filename, aclcursor):
-        # insert the entry into the access table
+    def insert_aclentries(self, filename, aclcursor):
+        # insert the entries into the access table
 
         try:
             acl = sqlite3.connect(filename)
@@ -97,6 +99,20 @@ class Generator:
         finally:
             if acl:
                 acl.close()
+
+    def create_logfile(self, hostname, relayid):
+        try:
+            filename = self.logpath + hostname + "-" + relayid
+            logfile = sqlite3.connect(filename)
+            cursor = logfile.cursor()
+            query = self.create_log()
+            cursor.execute(query)
+        except sqlite3.Error, e:
+            print(e)
+            sys.exit(1)
+        finally:
+            if logfile:
+                logfile.close()
        
     def query_targets(self):
         return "SELECT \
@@ -120,6 +136,9 @@ class Generator:
 
     def insert_access(self, locationid, tokenid):
         return "INSERT INTO access VALUES (" + locationid + tokenid + ")"
+
+    def create_log(self):
+        retrun "CREATE TABLE log (when TIMESTAMP DEFAULT CURRENT_TIMESTAMP, tokenid TEXT, granted INT)"
 
 
 def main():

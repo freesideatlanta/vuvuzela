@@ -26,12 +26,12 @@ MySQL database system
 
 SQLite access control lists
 ---------------------------
-    filename: <server>:/srv/<hostname>.db
+    filename: <server>:/srv/<hostname>-<relayid>.db
     access (tokenid, number)
 
 SQLite log
 ----------
-    filename: <hostname>:/var/log/vuvuzela/<hostname>.db
+    filename: <hostname>:/var/log/vuvuzela/<hostname>-<relayid>.db
     log (when, tokenid, granted)
 
 vuvuzela (central server)
