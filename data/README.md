@@ -1,4 +1,10 @@
 
+Initial Setup
+-------------
+
+    mysql> CREATE USER 'vuvuzela'@'localhost' IDENTIFIED BY 'alezuvuv';
+    mysql> GRANT ALL PRIVILEGES ON *.* TO 'vuvuzela'@'localhost' WITH GRANT OPTION;
+
 Database Scripts
 ----------------
 

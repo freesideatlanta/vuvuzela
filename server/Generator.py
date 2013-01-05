@@ -4,40 +4,17 @@ import os
 import sqlite3
 import sys
 
+import ConnectionManager
+
 class Generator:
-    def __init__(self):
-        self.db = None
-
-        parser = ConfigParser.ConfigParser()
-        local = os.path.expanduser('~/.vuvuzela/configuration.ini')
-        parser.read(['configuration.ini', local])
-
-        if (parser.has_section('datastore')):
-            self.hostname = parser.get('datastore', 'hostname')
-            self.username = parser.get('datastore', 'username')
-            self.password = parser.get('datastore', 'password')
-            self.database = parser.get('datastore', 'database')
-
-        if (parser.has_section('targets')):
-            self.aclpath = parser.get('targets', 'aclpath')
-            self.logpath = parser.get('targets', 'logpath')
-
-    def connect(self):
-        try:
-            self.db = MySQLdb.connect(host=self.hostname, user=self.username, passwd=self.password, db=self.database)
-        except MySQLdb.Error, e:
-            print(e)
-            sys.exit(1)
-
-    def close(self):
-        if self.db:
-            self.db.close()
+    def __init__(self, cm):
+        self.cm = cm
 
     def generate(self):
         try:
             # select the targets
             query = self.query_targets()
-            groupcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
+            groupcursor = self.cm.db.cursor(MySQLdb.cursors.DictCursor)
             groupcursor.execute(query)
 
             # iterate through the targets (groupid, groupname, description, hostname, nodeid, relayid)
@@ -50,7 +27,7 @@ class Generator:
                 filename = self.create_acl(hostname, relayid)
 
                 query = self.query_acl(groupid)
-                aclcursor = self.db.cursor(MySQLdb.cursors.DictCursor)
+                aclcursor = self.cm.db.cursor(MySQLdb.cursors.DictCursor)
                 aclcursor.execute(query)
 
                 self.insert_aclentries(filename, aclcursor)
@@ -64,7 +41,7 @@ class Generator:
     def create_acl(self, hostname, relayid):
         # generate sqlite file hostname-relayid.db with access, log tables
         print("generating ACL: " + hostname + "-" + str(relayid) + ".db")
-        filename = self.aclpath + hostname + "-" + str(relayid) + ".db"
+        filename = self.cm.aclpath + hostname + "-" + str(relayid) + ".db"
 
         try:
             acl = sqlite3.connect(filename)
@@ -104,7 +81,7 @@ class Generator:
     def create_logfile(self, hostname, relayid):
         logfile = None
         try:
-            filename = self.logpath + hostname + "-" + relayid
+            filename = self.cm.logpath + hostname + "-" + relayid
             logfile = sqlite3.connect(filename)
             cursor = logfile.cursor()
             query = self.create_log()
@@ -145,10 +122,13 @@ class Generator:
 
 
 def main():
-    g = Generator()
-    g.connect()
+    cm = ConnectionManager()
+    cm.connect()
+
+    g = Generator(cm)
     g.generate()
-    g.close()
+
+    cm.close()
 
 if __name__=='__main__':
     main()
