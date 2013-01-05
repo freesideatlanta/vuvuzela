@@ -5,38 +5,14 @@ import sqlite3
 import sys
 
 class Loggregator:
-    def __init__(self):
-        self.db = None
-
-        parser = ConfigParser.ConfigParser()
-        local = os.path.expanduser('~/.vuvuzela/configuration.ini')
-        parser.read(['configuration.ini', local])
-
-        if (parser.has_section('datastore')):
-            self.hostname = parser.get('datastore', 'hostname')
-            self.username = parser.get('datastore', 'username')
-            self.password = parser.get('datastore', 'password')
-            self.database = parser.get('datastore', 'database')
-
-        if (parser.has_section('targets')):
-            self.logpath = parser.get('targets', 'logpath')
-
-    def connect(self):
-        try:
-            self.db = MySQLdb.connect(host=self.hostname, user=self.username, passwd=self.password, db=self.database)
-        except MySQLdb.Error, e:
-            print(e)
-            sys.exit(1)
-
-    def close(self):
-        if self.db:
-            self.db.close()
+    def __init__(self, cm):
+        self.cm = cm
 
     def aggregate(self):
         try:
             # query for the target hostname, relayid pairs
             query = self.query_targets()
-            nodecursor = self.db.cursor(MySQLdb.cursors.DictCursor)
+            nodecursor = self.cm.db.cursor(MySQLdb.cursors.DictCursor)
             nodecursor.execute(query)
 
             for node in nodecursor:
@@ -46,7 +22,7 @@ class Loggregator:
                 rid = node["rid"]
 
                 # connect to the sqlite log file for the node/relay and query the log
-                nodelogpath = self.logpath + hostname + "-" + relayid
+                nodelogpath = self.cm.logpath + hostname + "-" + relayid
                 nodelogfile = sqlite3.connect(nodelogpath)
                 nodelogfile.row_factory = sqlite3.Row
 
@@ -63,7 +39,7 @@ class Loggregator:
 
                     # insert a log entry into the master log
                     query = insert_entry(nid, rid, when, tokenid, granted)
-                    insertcursor = self.db.cursor()
+                    insertcursor = self.cm.db.cursor()
                     insertcursor.execute(query)
 
         except MySQLdb.Error, e:
@@ -86,10 +62,13 @@ class Loggregator:
                 (" + nid + ", " + rid + ", " + when + ", " + tokenid + ", " + granted + ")"
 
 def main():
-    g = Loggregator()
-    g.connect()
+    cm = ConnectionManager()
+    cm.connect()
+
+    g = Loggregator(cm)
     g.aggregate()
-    g.close()
+
+    cm.close()
 
 if __name__=='__main__':
     main()
