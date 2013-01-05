@@ -4,6 +4,9 @@ hardware:
 software:
 - linux (ubuntu)
 - vuvuzela service
+- python mysqldb module
+
+    $ pip install mysql-python
 
 generator script:
 - runs as vuvuzela user
