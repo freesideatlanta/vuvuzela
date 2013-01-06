@@ -4,6 +4,8 @@ import os
 import sqlite3
 import sys
 
+import ConnectionManager
+
 class Loggregator:
     def __init__(self, cm):
         self.cm = cm
@@ -22,7 +24,7 @@ class Loggregator:
                 rid = node["rid"]
 
                 # connect to the sqlite log file for the node/relay and query the log
-                nodelogpath = self.cm.logpath + hostname + "-" + relayid
+                nodelogpath = self.cm.logpath + hostname + "-" + str(relayid)
                 nodelogfile = sqlite3.connect(nodelogpath)
                 nodelogfile.row_factory = sqlite3.Row
 
@@ -62,7 +64,7 @@ class Loggregator:
                 (" + nid + ", " + rid + ", " + time + ", " + tokenid + ", " + granted + ")"
 
 def main():
-    cm = ConnectionManager()
+    cm = ConnectionManager.ConnectionManager()
     cm.connect()
 
     g = Loggregator(cm)
