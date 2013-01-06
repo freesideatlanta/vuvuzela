@@ -33,12 +33,12 @@ class Loggregator:
 
                 # iterate through the sqlite log file for the node/relay
                 for entry in entries:
-                    when = entry["when"]
+                    time = entry["time"]
                     tokenid = entry["tokenid"]
                     granted = entry["granted"]
 
                     # insert a log entry into the master log
-                    query = insert_entry(nid, rid, when, tokenid, granted)
+                    query = insert_entry(nid, rid, time, tokenid, granted)
                     insertcursor = self.cm.db.cursor()
                     insertcursor.execute(query)
 
@@ -55,11 +55,11 @@ class Loggregator:
                 JOIN relay r on r.rid = cnr.rid"
 
     def query_log(self):
-        return "SELECT when, tokenid, granted FROM log";
+        return "SELECT time, tokenid, granted FROM log";
 
-    def insert_entry(self, nid, rid, when, tokenid, granted):
-        return "INSERT INTO log (nid, rid, when, tokenid, granted) VALUES \
-                (" + nid + ", " + rid + ", " + when + ", " + tokenid + ", " + granted + ")"
+    def insert_entry(self, nid, rid, time, tokenid, granted):
+        return "INSERT INTO log (nid, rid, time, tokenid, granted) VALUES \
+                (" + nid + ", " + rid + ", " + time + ", " + tokenid + ", " + granted + ")"
 
 def main():
     cm = ConnectionManager()

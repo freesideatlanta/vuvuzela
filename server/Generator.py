@@ -81,7 +81,7 @@ class Generator:
     def create_logfile(self, hostname, relayid):
         logfile = None
         try:
-            filename = self.cm.logpath + hostname + "-" + relayid
+            filename = self.cm.logpath + hostname + "-" + str(relayid)
             logfile = sqlite3.connect(filename)
             cursor = logfile.cursor()
             query = self.create_log()
@@ -118,7 +118,7 @@ class Generator:
         return "INSERT INTO access VALUES (" + locationid + tokenid + ")"
 
     def create_log(self):
-        return "CREATE TABLE log (when TIMESTAMP DEFAULT CURRENT_TIMESTAMP, tokenid TEXT, granted INT)"
+        return "CREATE TABLE log (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, tokenid TEXT, granted INT)"
 
 
 def main():
