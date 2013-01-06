@@ -95,7 +95,7 @@ class Generator:
        
     def query_targets(self):
         return "SELECT \
-                c.cid AS groupid, name AS groupname, description, n.hostname, cnr.nid AS nodeid, r.number AS relayid \
+                c.cid AS groupid, name AS groupname, n.hostname, cnr.nid AS nodeid, r.number AS relayid \
                 FROM class c \
                 JOIN class_node_relay cnr ON c.cid = cnr.cid \
                 JOIN node n on n.nid = cnr.nid \
@@ -103,7 +103,7 @@ class Generator:
     
     def query_acl(self, groupid):
         return "SELECT \
-                login, c.cid as groupid, name AS groupname, description, locationid, tokenid \
+                login, c.cid as groupid, name AS groupname, locationid, tokenid \
                 FROM user u \
                 JOIN user_class uc ON u.uid = uc.uid \
                 JOIN class c ON c.cid = uc.cid \
@@ -122,7 +122,7 @@ class Generator:
 
 
 def main():
-    cm = ConnectionManager()
+    cm = ConnectionManager.ConnectionManager()
     cm.connect()
 
     g = Generator(cm)
