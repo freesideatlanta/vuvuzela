@@ -37,3 +37,5 @@ INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON u
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='fatpandasays@gmail.com'), (SELECT cid FROM class WHERE name='itstaff'));
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='emptyset@gmail.com'), (SELECT cid FROM class WHERE name='itstaff'));
 INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='quadmasta@hotmail.com'), (SELECT cid FROM class WHERE name='itstaff'));
+
+INSERT INTO user_class (uid, cid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='shane@myinventorclub.com'), (SELECT cid FROM class WHERE name='other'));
