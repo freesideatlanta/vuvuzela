@@ -1,7 +1,7 @@
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='quadmasta@hotmail.com'), (SELECT tid FROM token WHERE tokenid='61921'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='vigor.rigor.igor@gmail.com'), (SELECT tid FROM token WHERE tokenid='01589'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='emptyset@gmail.com'), (SELECT tid FROM token WHERE tokenid='63781'));
-INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='myonen.mc.ca@gmail.com'), (SELECT tid FROM token WHERE tokenid='55267'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='myonen.mc.ca@gmail.com'), (SELECT tid FROM token WHERE tokenid='65439'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='scott.mcgraw@gatech.edu'), (SELECT tid FROM token WHERE tokenid='60301'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='paul@firnschild.com'), (SELECT tid FROM token WHERE tokenid='64190'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='waynesalhany@cythink.com'), (SELECT tid FROM token WHERE tokenid='03328'));
@@ -22,3 +22,4 @@ INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON u
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='markluffel@gmail.com'), (SELECT tid FROM token WHERE tokenid='02651'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='ngiovinco@gmail.com'), (SELECT tid FROM token WHERE tokenid='03975'));
 INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='k4stephens@gmail.com'), (SELECT tid FROM token WHERE tokenid='64061'));
+INSERT INTO user_token (uid, tid) VALUES ((SELECT uid FROM user JOIN person ON user.pid = person.pid WHERE person.email='householdwords@gmail.com'), (SELECT tid FROM token WHERE tokenid='04265'));
