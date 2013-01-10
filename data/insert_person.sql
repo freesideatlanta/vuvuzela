@@ -25,6 +25,7 @@ INSERT INTO person (name, email, number) VALUES ('Robert Graham', 'rpgraham84@gm
 INSERT INTO person (name, email, number) VALUES ('Scott McGraw', 'scott.mcgraw@gatech.edu', null);
 INSERT INTO person (name, email, number) VALUES ('Sean Kennedy', 'seanfkennedy@gmail.com', null);
 INSERT INTO person (name, email, number) VALUES ('Sean McNealy', 'seanmcnealy@gmail.com', null);
+INSERT INTO person (name, email, number) VALUES ('Shane Matthews', 'shane@myinventorclub.com', null);
 INSERT INTO person (name, email, number) VALUES ('Slade Stricklin', 'sladestricklin@gmail.com', null);
 INSERT INTO person (name, email, number) VALUES ('Steven Sutton', 'ssutton4455@gmail.com', null);
 INSERT INTO person (name, email, number) VALUES ('Wallace Murphy', 'myonen.mc.ca@gmail.com', null);

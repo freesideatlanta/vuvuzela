@@ -25,6 +25,7 @@ INSERT INTO user (login, pid) VALUES ('devrg0', (SELECT pid FROM person WHERE em
 INSERT INTO user (login, pid) VALUES ('scott.mcgraw', (SELECT pid FROM person WHERE email='scott.mcgraw@gatech.edu'));
 INSERT INTO user (login, pid) VALUES ('sean.kennedy', (SELECT pid FROM person WHERE email='seanfkennedy@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('sean.mcnealy', (SELECT pid FROM person WHERE email='seanmcnealy@gmail.com'));
+INSERT INTO user (login, pid) VALUES ('shane.matthews', (SELECT pid FROM person WHERE email='shane@myinventorclub.com'));
 INSERT INTO user (login, pid) VALUES ('slade', (SELECT pid FROM person WHERE email='sladestricklin@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('steamboat', (SELECT pid FROM person WHERE email='ssutton4455@gmail.com'));
 INSERT INTO user (login, pid) VALUES ('wallace.murphy', (SELECT pid FROM person WHERE email='myonen.mc.ca@gmail.com'));
