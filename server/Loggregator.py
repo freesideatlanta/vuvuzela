@@ -1,10 +1,10 @@
 import ConfigParser
-import MySQLdb 
+import MySQLdb
 import os
 import sqlite3
 import sys
 
-import ConnectionManager
+from ConnectionManager import ConnectionManager
 
 class Loggregator:
     def __init__(self, cm):
@@ -64,7 +64,7 @@ class Loggregator:
                 (" + nid + ", " + rid + ", " + time + ", " + tokenid + ", " + granted + ")"
 
 def main():
-    cm = ConnectionManager.ConnectionManager()
+    cm = ConnectionManager()
     cm.connect()
 
     g = Loggregator(cm)

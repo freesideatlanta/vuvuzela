@@ -1,10 +1,10 @@
 import ConfigParser
-import MySQLdb 
+import MySQLdb
 import os
 import sqlite3
 import sys
 
-import ConnectionManager
+from ConnectionManager import ConnectionManager
 
 class Generator:
     def __init__(self, cm):
@@ -63,7 +63,7 @@ class Generator:
         try:
             acl = sqlite3.connect(filename)
             cursor = acl.cursor()
-            
+
             for entry in aclcursor:
                 locationid = entry["locationid"]
                 tokenid = entry["tokenid"]
@@ -92,7 +92,7 @@ class Generator:
         finally:
             if logfile:
                 logfile.close()
-       
+
     def query_targets(self):
         return "SELECT \
                 c.cid AS groupid, name AS groupname, n.hostname, cnr.nid AS nodeid, r.number AS relayid \
@@ -100,7 +100,7 @@ class Generator:
                 JOIN class_node_relay cnr ON c.cid = cnr.cid \
                 JOIN node n on n.nid = cnr.nid \
                 JOIN relay r on r.rid = cnr.rid"
-    
+
     def query_acl(self, groupid):
         return "SELECT \
                 login, c.cid as groupid, name AS groupname, locationid, tokenid \
@@ -122,7 +122,7 @@ class Generator:
 
 
 def main():
-    cm = ConnectionManager.ConnectionManager()
+    cm = ConnectionManager()
     cm.connect()
 
     g = Generator(cm)
